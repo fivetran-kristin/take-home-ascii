@@ -9,11 +9,18 @@ class Canvas():
   def create_canvas(self):
     """Create dictionary with the appropriate key:value pair structure to represent canvas"""
 
+    # create blank canvas
     for h in range (1, self.height +1):
         self.outline[h] = {}
       
         for w in range(1, self.width +1):
           self.outline[h][w] = " "
+
+    #loop through shapes and overwrite dictionary values with the shape value
+    for shape in self.shapes:
+      for h in range(max(shape.start_y,0), min(shape.end_y +1, self.height+1)): #taking min and max so that we don't write in the out-of-boundary area
+        for w in range(max(shape.start_x,0), min(shape.end_x +1, self.width+1)):
+          self.outline[h][w] = shape.fill_char
 
   def print_canvas(self):
     """Print canvas to console"""
@@ -71,3 +78,13 @@ class Shape():
       print("Axis value must be 'y' or 'x'")
 
 
+c = Canvas(5,5)
+shape1 = Shape(2,2,4,4,'*')
+shape2 = Shape(1,1,2,2,'!')
+shape3 = Shape(6,6,8,8,'*')
+
+c.add_shape(shape1)
+c.add_shape(shape2)
+c.add_shape(shape3)
+c.create_canvas()
+c.print_canvas()
